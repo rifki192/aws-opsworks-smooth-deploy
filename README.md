@@ -5,11 +5,11 @@ Deploy script executed inside AWS opsworks instances to avoid error request from
 Before starting the deployment process, execute
 
 ```
-aws_opsworks_smooth_deploy start
+aws-opsworks-smooth-deploy detach --opsworks-stack-id=<STACK-ID>
 ```
 
 After the deployment process finish, execute
 
 ```
-aws_opsworks_smooth_deploy finish
+aws-opsworks-smooth-deploy attach --opsworks-stack-id=<STACK-ID>
 ```
