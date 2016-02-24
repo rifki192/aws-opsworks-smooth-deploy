@@ -107,9 +107,22 @@ def get_elastic_load_balancer_instance_count(elb):
             elb,
         ]
     )
-    layerInstanceCount = len(response['LoadBalancerDescriptions'][0]['Instances'])
 
-    return layerInstanceCount
+    instances = []
+    for item in response['LoadBalancerDescriptions'][0]['Instances']:
+        instances.append({'InstanceId': item['InstanceId']})
+
+    response = elbclient.describe_instance_health(
+        LoadBalancerName=elb,
+        Instances=instances
+    )
+
+    inServiceInstance = 0
+    for item in response['InstanceStates']:
+        if item['State'] == 'InService':
+            inServiceInstance += 1
+
+    return inServiceInstance
 
 def get_online_instance_count(layer_id):
     """Get online instance count attached to a layer.
@@ -177,7 +190,6 @@ def detach(stack_id, minimum_instance = __MINIMUM_ATTACHED_INSTANCES__):
     """Detach current instance from the load balancer if the active instance
     is still in threshold.
     :param opsworks_stack_id The ID of the opsworks stack.
-    :param minimum_instance  The minimum attached instance to the ELB.
     """
 
     instanceId = get_current_instance_id()

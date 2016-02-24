@@ -13,7 +13,7 @@ with open('requirements.txt') as f:
 
 setup(
     name = "aws-opsworks-smooth-deploy",
-    version = "0.1.6",
+    version = "0.1.8",
     author = "Rifki, Petra Barus",
     author_email = "rifki@urbanindo.com, petra@urbanindo.com",
     description = ("Smooth Deploy on AWS Opsworks "),
